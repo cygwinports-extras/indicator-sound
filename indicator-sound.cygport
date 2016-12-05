@@ -1,0 +1,31 @@
+inherit gnome2
+
+NAME="indicator-sound"
+VERSION=12.10.1
+RELEASE=1
+CATEGORY="X11"
+SUMMARY="Indicator sound applet"
+DESCRIPTION="A sound menu applet for the Ayatana indicators system"
+HOMEPAGE="https://launchpad.net/indicator-sound"
+SRC_URI="${HOMEPAGE}/${VERSION%.*}/${VERSION}/+download/${NAME%-gtk2}-${VERSION}.tar.gz"
+PATCH_URI="
+	12.10.1-icons.patch
+	12.10.1-no-undefined.patch
+	12.10.1-pavucontrol.patch
+"
+
+PKG_NAMES="${NAME} ${NAME}-common"
+indicator_sound_REQUIRES="${NAME}-common"
+indicator_sound_CONTENTS="
+	usr/lib/indicators3/7/cygsoundmenu.dll
+	usr/libexec/indicator-sound-service.exe
+	usr/share/dbus-1/services/indicator-sound.service
+	usr/share/doc/indicator-sound/
+"
+indicator_sound_common_CONTENTS="
+	usr/share/glib-2.0/schemas/com.canonical.indicator.sound.gschema.xml
+	usr/share/libindicator/icons/hicolor/*/status/sound-icon.*
+"
+
+# this hasn't been updated in far too long
+CFLAGS+=" -Wno-error=deprecated-declarations"
